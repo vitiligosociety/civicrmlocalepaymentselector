@@ -56,10 +56,16 @@ function updatePaymentProcessorNames(gcText, stripeText) {
       if (payment_processor_ids['GoCardless'].indexOf(m[1]) > -1) {
         // GoCardless.
         $(this).next().text(gcText);
+
       }
       else if (payment_processor_ids['Stripe'].indexOf(m[1]) > -1) {
         // Stripe.
         $(this).next().text(stripeText);
+      }
+
+      if ($(this).next().next().prop('tagName') !== 'BR') {
+        // Insert line break before input.
+        $(this).next().next().before('<br/>');
       }
     }
   });
@@ -78,6 +84,7 @@ var $inUK = $('<input/>')
   .appendTo($div);
 $('<label/>')
   .attr('for', 'in-uk-yes')
+  .css({'margin-right': '2rem'})
   .text("I'm in the UK")
   .appendTo($div);
 var $notInUK = $('<input/>')

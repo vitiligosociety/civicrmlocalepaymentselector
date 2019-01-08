@@ -1,6 +1,6 @@
 <?php
 
-const VITILIGO_MEMBERSHIP_FORM_ID = '4';
+const VITILIGO_MEMBERSHIP_FORM_ID = '1';
 
 require_once 'vitiligocustom.civix.php';
 use CRM_Vitiligocustom_ExtensionUtil as E;
