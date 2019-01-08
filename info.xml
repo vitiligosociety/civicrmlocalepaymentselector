@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<extension key="vitiligocustom" type="module">
+  <file>vitiligocustom</file>
+  <name>Vitiligo Custom Functionality</name>
+  <description>Special functionality for Vitiligo Society.</description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Rich Lott</author>
+    <email>forums@artfulrobot.uk</email>
+  </maintainer>
+  <urls>
+    <url desc="Main Extension Page">https://github.com/artfulrobot/vitiligocustom</url>
+    <url desc="Documentation">https://github.com/artfulrobot/vitiligocustom</url>
+    <url desc="Support">http://artfulrobot.uk</url>
+    <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
+  </urls>
+  <releaseDate>2019-01-08</releaseDate>
+  <version>1.0</version>
+  <develStage>beta</develStage>
+  <compatibility>
+    <ver>5.0</ver>
+  </compatibility>
+  <comments>This is not for general usefulness.</comments>
+  <civix>
+    <namespace>CRM/Vitiligocustom</namespace>
+  </civix>
+</extension>
