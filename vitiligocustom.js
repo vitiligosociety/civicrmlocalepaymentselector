@@ -80,7 +80,7 @@ $('<label/>')
   .attr('for', 'in-uk-yes')
   .text("I'm in the UK")
   .appendTo($div);
-$('<input/>')
+var $notInUK = $('<input/>')
   .attr({id: 'in-uk-no', value: '0', name: 'in-uk', type:'radio'})
   .on('click', updateUi)
   .appendTo($div);
@@ -92,5 +92,19 @@ $('<label/>')
 var $payment_options = $form.find('.payment_options-group');
 var $payment_processor = $payment_options.find('.payment_processor-section');
 $payment_processor.hide().before($container);
+
+// Finally, we need to override CiviCRM's events on the price set selection.
+function overridePriceSetShowHide() {
+  if (!$inUK.is(':checked') && !$notInUK.is(':checked')) {
+    // Neither UK nor not UK is checked, so hide the other options for now.
+    $payment_processor.hide();
+  }
+}
+// Apply this when the price set is clicked.
+$('.price-set-option-content input[type="radio"]').on('click', function() {
+  overridePriceSetShowHide();
+  // In case we are not called first, repeat this after giving 50ms for other processes to work.
+  setTimeout(overridePriceSetShowHide, 50);
+});
 
 });})(CRM, CRM.$);
