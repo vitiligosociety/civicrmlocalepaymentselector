@@ -1,6 +1,7 @@
 <?php
 
 const VITILIGO_MEMBERSHIP_FORM_ID = '1';
+const VITILIGO_DONATION_FORM_ID   = '2';
 
 require_once 'vitiligocustom.civix.php';
 use CRM_Vitiligocustom_ExtensionUtil as E;
@@ -143,9 +144,13 @@ function vitiligocustom_civicrm_entityTypes(&$entityTypes) {
  * @see https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_buildForm/
  */
 function vitiligocustom_civicrm_buildForm($formName, &$form) {
-	if ($formName === 'CRM_Contribute_Form_Contribution_Main'
-			&& $form->_id === VITILIGO_MEMBERSHIP_FORM_ID) {
 
+  if ($formName !== 'CRM_Contribute_Form_Contribution_Main') {
+    return;
+  }
+
+  $js = $css = '';
+  if ($form->_id === VITILIGO_MEMBERSHIP_FORM_ID) {
     // We need to lookup Stripe and GoCardless payment processors' IDs.
 
     // Lookup Stripe and GoCardless payment procesor types; create an array like <ID> => 'type'
@@ -170,14 +175,22 @@ function vitiligocustom_civicrm_buildForm($formName, &$form) {
     }
     $config = json_encode($config);
 
-		// See https://docs.civicrm.org/dev/en/latest/framework/region/#adding-content-to-a-region
-		// Nb. there is a mechanism for adding a script tag that fetches a script by URL.
-		// However, that's likely to be slower than just including the file here since it's another
-		// round-trip.
+    // See https://docs.civicrm.org/dev/en/latest/framework/region/#adding-content-to-a-region
+    // Nb. there is a mechanism for adding a script tag that fetches a script by URL.
+    // However, that's likely to be slower than just including the file here since it's another
+    // round-trip.
     // Also note 'Note: WP support is inconsistent pending refactor.' - from link above.
-    $js = file_get_contents(__DIR__ . '/vitiligocustom.js');
+    $js = file_get_contents(__DIR__ . '/js/membership-form.js');
     $js = str_replace('var payment_processor_ids = {};//%config%', "var payment_processor_ids = $config;", $js);
+    $js .= file_get_contents(__DIR__ . '/js/fix-radio-checkbox-layout.js');
     $css = file_get_contents(__DIR__ . '/vitiligocustom.css');
-		CRM_Core_Region::instance('page-body')->add(['markup' => "<script>$js</script><style>$css</style>"]);
-	}
+  }
+  elseif ($form->_id === VITILIGO_DONATION_FORM_ID) {
+    $js = file_get_contents(__DIR__ . '/js/fix-radio-checkbox-layout.js');
+    $css = file_get_contents(__DIR__ . '/vitiligocustom.css');
+  }
+
+  if ($js || $css) {
+    CRM_Core_Region::instance('page-body')->add(['markup' => "<script>$js</script><style>$css</style>"]);
+  }
 }
