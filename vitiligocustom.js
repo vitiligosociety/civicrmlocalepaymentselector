@@ -96,6 +96,11 @@ $('<label/>')
   .text("I'm not in the UK")
   .appendTo($div);
 
+
+var $payment_options = $form.find('.payment_options-group');
+var $payment_processor = $payment_options.find('.payment_processor-section');
+$payment_processor.hide().before($container);
+
 // This is a real hack to replace CiviCRM core markup which leaves a text space
 // node after each label and can leave radio/checkboxes estranged from their
 // labels. It also adds a little padding for finesse.
@@ -108,10 +113,6 @@ $form.find('input[type="radio"] + label, input[type="checkbox"] + label').each(f
     .add(this.previousElementSibling)
     .wrapAll($('<div/>').addClass('input-label-pair'));
 });
-
-var $payment_options = $form.find('.payment_options-group');
-var $payment_processor = $payment_options.find('.payment_processor-section');
-$payment_processor.hide().before($container);
 
 // Finally, we need to override CiviCRM's events on the price set selection.
 function overridePriceSetShowHide() {
