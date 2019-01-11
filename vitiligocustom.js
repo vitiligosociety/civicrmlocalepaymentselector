@@ -10,6 +10,7 @@ if (!$form.length) {
 	return;
 }
 
+
 // Create UK radios.
 function updateUi() {
   if ($inUK.is(":checked")) {
@@ -84,7 +85,6 @@ var $inUK = $('<input/>')
   .appendTo($div);
 $('<label/>')
   .attr('for', 'in-uk-yes')
-  .css({'margin-right': '2rem'})
   .text("I'm in the UK")
   .appendTo($div);
 var $notInUK = $('<input/>')
@@ -95,6 +95,19 @@ $('<label/>')
   .attr('for', 'in-uk-no')
   .text("I'm not in the UK")
   .appendTo($div);
+
+// This is a real hack to replace CiviCRM core markup which leaves a text space
+// node after each label and can leave radio/checkboxes estranged from their
+// labels. It also adds a little padding for finesse.
+$form.find('input[type="radio"] + label, input[type="checkbox"] + label').each(function() {
+  if (this.nextSibling && this.nextSibling.nodeName === '#text') {
+    this.parentNode.removeChild(this.nextSibling);
+  }
+  $(this)
+    .css('padding-left', '0.5rem')
+    .add(this.previousElementSibling)
+    .wrapAll($('<div/>').addClass('input-label-pair'));
+});
 
 var $payment_options = $form.find('.payment_options-group');
 var $payment_processor = $payment_options.find('.payment_processor-section');

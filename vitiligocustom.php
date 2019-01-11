@@ -174,8 +174,10 @@ function vitiligocustom_civicrm_buildForm($formName, &$form) {
 		// Nb. there is a mechanism for adding a script tag that fetches a script by URL.
 		// However, that's likely to be slower than just including the file here since it's another
 		// round-trip.
+    // Also note 'Note: WP support is inconsistent pending refactor.' - from link above.
     $js = file_get_contents(__DIR__ . '/vitiligocustom.js');
     $js = str_replace('var payment_processor_ids = {};//%config%', "var payment_processor_ids = $config;", $js);
-		CRM_Core_Region::instance('page-body')->add(['markup' => "<script>$js</script>"]);
+    $css = file_get_contents(__DIR__ . '/vitiligocustom.css');
+		CRM_Core_Region::instance('page-body')->add(['markup' => "<script>$js</script><style>$css</style>"]);
 	}
 }
