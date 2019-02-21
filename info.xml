@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension key="vitiligocustom" type="module">
   <file>vitiligocustom</file>
-  <name>Vitiligo Custom Functionality</name>
+  <name>CiviCRM Locale Payment Selector</name>
   <description>Special functionality for Vitiligo Society.</description>
   <license>AGPL-3.0</license>
   <maintainer>
