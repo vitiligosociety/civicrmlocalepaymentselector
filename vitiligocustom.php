@@ -2,6 +2,7 @@
 
 const VITILIGO_MEMBERSHIP_FORM_ID = '1';
 const VITILIGO_DONATION_FORM_ID   = '2';
+const VITILIGO_MEMBERSHIP_RENEWAL_FORM_ID = '6';
 
 require_once 'vitiligocustom.civix.php';
 use CRM_Vitiligocustom_ExtensionUtil as E;
@@ -150,7 +151,7 @@ function vitiligocustom_civicrm_buildForm($formName, &$form) {
   }
 
   $js = $css = '';
-  if ($form->_id === VITILIGO_MEMBERSHIP_FORM_ID) {
+  if (in_array($form->_id, [VITILIGO_MEMBERSHIP_FORM_ID, VITILIGO_MEMBERSHIP_RENEWAL_FORM_ID])) {
     // We need to lookup Stripe and GoCardless payment processors' IDs.
 
     // Lookup Stripe and GoCardless payment procesor types; create an array like <ID> => 'type'
